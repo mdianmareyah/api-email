@@ -32,9 +32,30 @@ jobs:
       uses: mr-smithers-excellent/docker-build-push@v5
       with:
         image: mdianmareyah/sendemail-github
-        tags: latest
+        tags: ${{ github.run_number }}
         registry: docker.io
         dockerfile: Dockerfile
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-    # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receiv
+    
+  modifygit:
+    needs: docker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: mise à jour du fichier manifest
+        with:
+          repository: 'mdianmareyah/kubemanifest'
+          token: ${{ secrets.GIT_PASSWORD }}
+      - name: Modification de l'image docker
+        run: |
+          git config user.email mdianmareyah@gmail.com
+          git config user.name mdianmareyah
+          pwd
+          cat deployment.yaml
+          pwd
+          sed -i "s+mdianmareyah/sendemail-github.*+mdianmareyah/sendemail-github:$RUN_NUMBER+g" deployment.yaml
+          cat deployment.yaml
+          git add .
+          git commit -m 'Mise à jour par Github Actions   Job changemanifest: ${{ github.run_number }}'
+          git push origin main
