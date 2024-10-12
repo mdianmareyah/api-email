@@ -45,15 +45,15 @@ jobs:
       - uses: actions/checkout@v3
         name: mise à jour du fichier manifest
         with:
-          repository: 'mdianmareyah/kubemanifest'
+          repository: 'mdianmareyah/argocd-kubernetes'
           token: ${{ secrets.GIT_PASSWORD }}
       - name: Modification de l'image docker
         run: |
           git config user.email mdianmareyah@gmail.com
           git config user.name mdianmareyah
           pwd
-          cat manifest/deployment.yaml
-          cd manifest
+          cat wordpress/deployment.yaml
+          cd wordpress
           sed -i "s+mdianmareyah/sendemail-github.*+mdianmareyah/sendemail-github:$RUN_NUMBER+g" deployment.yaml
           pwd
           cat deployment.yaml
