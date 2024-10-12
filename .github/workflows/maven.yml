@@ -56,7 +56,7 @@ jobs:
           cd manifest
           sed -i "s+mdianmareyah/sendemail-github.*+mdianmareyah/sendemail-github:$RUN_NUMBER+g" deployment.yaml
           pwd
-          cat manifest/deployment.yaml
+          cat deployment.yaml
           git add .
           git commit -m 'Mise à jour par Github Actions   Job changemanifest: ${{ github.run_number }}'
           git push origin main
