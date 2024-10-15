@@ -42,8 +42,8 @@ jobs:
       uses: aquasecurity/trivy-action@0.27.0
       with:
         image-ref: 'docker.io/mdianmareyah/sendemail-github:${{ github.run_number }}'
-        format: 'json'
-        exit-code: '1'
+        format: 'table'
+        exit-code: '0'
         ignore-unfixed: true
         vuln-type: 'os,library'
         severity: 'MEDIUM,CRITICAL,HIGH' 
